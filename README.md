@@ -40,6 +40,7 @@ Folder는 현시점에 Scanner_Blazor, SpiderShield_Blazor 두 개만 존재함.
 
 ## 실제 사용 방법
 
+![폴더 구조](AgosFileTransfer/Asset/Img/FolderImg.png)
 1. 위와 같이 전송할 폴더 바깥에 해당 소프트웨어를 위치 시킨다.
 (visual studio 내 publish로 셋팅 되는 폴더 바깥에 위치 시켜 놓으면, 다시 셋팅 할 필요가 없음.)
 2. config 에서 Folder를 전송할 Folder명과 동일하게 맞춰준다.
