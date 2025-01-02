@@ -1,4 +1,4 @@
-# AosFileTransfer
+# AgosFileTransfer
 작성자 : 김응기
 
 - Linux 시스템으로 파일을 자동 전송하는 프로그램
