@@ -5,6 +5,7 @@ using System.Text;
 using System.Threading.Tasks;
 using System.Configuration;
 using AgosFileTransfer.Tree;
+using System.IO;
 
 namespace AgosFileTransfer
 {   
@@ -19,9 +20,10 @@ namespace AgosFileTransfer
         {            
             DirectoryTree directoryTree = new DirectoryTree("root");
             // app.config에서 변수 읽기
-            string ftpServerUrl = IniFile.GetINIData("FTP", "IP","");
-            string userName = IniFile.GetINIData("FTP", "ID", "");
-            string password = IniFile.GetINIData("FTP", "PASSWORD", "");
+            string ftpServerUrl = ConfigurationManager.AppSettings["FtpServerUrl"];
+            string userName = ConfigurationManager.AppSettings["UserName"];
+            string password = ConfigurationManager.AppSettings["Password"];
+            string destFolder = ConfigurationManager.AppSettings["folder"];
 
             //임시로 파라미터 하드코딩
             FTPClient ftpClient = new FTPClient(ftpServerUrl, userName, password, directoryTree);
@@ -41,9 +43,17 @@ namespace AgosFileTransfer
             var r = ftpClient.SearchFTPNodesChildren(applicationNode);
 
             var ScannerBlazorDirectoryNode = applicationNode.Children
-                            .Find(v => v.Name == "Application/Scanner_Blazor");
+                            .Find(v => v.Name == $"Application/{destFolder}");
 
-            ftpClient.UploadFilesInDirectory("D:\\AGOS배포 빌드\\jetson_Scanner_Blazorv2", ScannerBlazorDirectoryNode.Name);
+
+
+#if DEBUG
+    ftpClient.UploadFilesInDirectory(@"D:\AGOS배포 빌드\jetson_Scanner_Blazorv2", ScannerBlazorDirectoryNode.Name);
+#else
+    ftpClient.UploadFilesInDirectory($"{Directory.GetCurrentDirectory()}\\{destFolder}", ScannerBlazorDirectoryNode.Name);
+#endif
+
+
 
             ftpClient.GetResultMessage();
 

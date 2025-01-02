@@ -222,7 +222,19 @@ namespace AgosFileTransfer
             {
                 using (FtpWebResponse response = (FtpWebResponse)request.GetResponse())
                 {
-                    return true; // 폴더가 존재하면 응답이 성공
+                    using (StreamReader reader = new StreamReader(response.GetResponseStream()))
+                    {
+                        if(reader.ReadLine() == null)
+                        {
+                            return false;
+                        }
+                        else
+                        {
+                            return true;
+                        }
+                        
+                    }
+                        
                 }
             }
             catch (WebException ex)
